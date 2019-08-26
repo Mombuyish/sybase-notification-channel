@@ -3,7 +3,7 @@
     "description": "Sybase 365 notification channel with Laravel.",
     "keywords": [
         "yish",
-        "sybase-notification-channel"
+        "laravel", "notifications", "sybase"
     ],
     "homepage": "https://github.com/yish/sybase-notification-channel",
     "license": "MIT",

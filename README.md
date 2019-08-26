@@ -1,11 +1,10 @@
 # Very short description of the package
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/yish/sybase-notification-channel.svg?style=flat-square)](https://packagist.org/packages/yish/sybase-notification-channel)
-[![Build Status](https://img.shields.io/travis/yish/sybase-notification-channel/master.svg?style=flat-square)](https://travis-ci.org/yish/sybase-notification-channel)
-[![Quality Score](https://img.shields.io/scrutinizer/g/yish/sybase-notification-channel.svg?style=flat-square)](https://scrutinizer-ci.com/g/yish/sybase-notification-channel)
+[![Build Status](https://img.shields.io/travis/Mombuyish/sybase-notification-channel/master.svg?style=flat-square)](https://travis-ci.org/Mombuyish/sybase-notification-channel)
 [![Total Downloads](https://img.shields.io/packagist/dt/yish/sybase-notification-channel.svg?style=flat-square)](https://packagist.org/packages/yish/sybase-notification-channel)
 
-This is where your description should go. Try and limit it to a paragraph or two, and maybe throw in a mention of what PSRs you support to avoid any confusion with users and contributors.
+Sybase 365 notification channel with Laravel.
 
 ## Installation
 
@@ -16,24 +15,93 @@ composer require yish/sybase-notification-channel
 ```
 
 ## Usage
-
-``` php
-// Usage description here
-```
-
-### Testing
+### Creating notification:
 
 ``` bash
-composer test
+$ php artisan make:notification SendMessage
 ```
 
-### Changelog
+### Notify the service and send request
+#### Basic
 
-Please see [CHANGELOG](CHANGELOG.md) for more information what has changed recently.
+``` php
+Notification::route('sybase', $phone)->notify(new \App\Notifications\SendMessage);
+```
 
-## Contributing
+Or you can construct the properties:
+``` php
+Notification::route('sybase', $phone)
+->notify(new \App\Notifications\SendMessage(
+    "Hi, here is yours",
+    "this is content."
+));
+```
 
-Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
+Next, navigate to `App\Notifications\SendMessage.php`, set driver:
+``` php
+use Yish\Notifications\Messages\SybaseMessage;
+class SendMessage extends Notification
+{
+    use Queueable;
+
+    public $subject;
+
+    public $content;
+
+    public function __construct($subject, $content)
+    {
+        $this->subject = $subject;
+        $this->content = $content;
+    }
+
+    public function via($notifiable)
+    {
+        return ['sybase'];
+    }
+    
+    public function toSybase($notifiable)
+    {
+        return (new SybaseMessage)
+                ->subject($this->subject)
+                ->content($this->content);
+    }
+    ....
+```
+
+Finally, you must be set service account and password, add a few configuration options to your `config/services.php`
+``` php
+'sybase' => [
+    'account' => env('SYBASE_ACCOUNT'),
+    'password' => env('SYBASE_PASSWORD'),
+    'endpoint' => env('SYBASE_ENDPOINT'),
+],
+```
+
+### Advanced
+In some cases, you want to customize the recipient or automatically sending: 
+``` php
+<?php
+
+namespace App;
+
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+
+class Guest extends Authenticatable
+{
+    use Notifiable; 
+    
+    public function routeNotificationForSybase($notification)
+    {
+        return $this->mobile;
+    }
+}
+```
+
+Finally, you can use:
+``` php
+$guest->notify(new SendMessage('Hello', 'world'));
+```
 
 ### Security
 
@@ -41,13 +109,8 @@ If you discover any security related issues, please email mombuartworks@gmail.co
 
 ## Credits
 
-- [Yish](https://github.com/yish)
-- [All Contributors](../../contributors)
+- [Yish](https://github.com/Mombuyish)
 
 ## License
 
 The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
-
-## Laravel Package Boilerplate
-
-This package was generated using the [Laravel Package Boilerplate](https://laravelpackageboilerplate.com).
