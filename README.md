@@ -1,4 +1,4 @@
-# Very short description of the package
+# Laravel Sybase Notification Channel
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/yish/sybase-notification-channel.svg?style=flat-square)](https://packagist.org/packages/yish/sybase-notification-channel)
 [![Build Status](https://img.shields.io/travis/Mombuyish/sybase-notification-channel/master.svg?style=flat-square)](https://travis-ci.org/Mombuyish/sybase-notification-channel)
