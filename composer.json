@@ -1,0 +1,53 @@
+{
+    "name": "yish/sybase-notification-channel",
+    "description": "Sybase 365 notification channel with Laravel.",
+    "keywords": [
+        "yish",
+        "sybase-notification-channel"
+    ],
+    "homepage": "https://github.com/yish/sybase-notification-channel",
+    "license": "MIT",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Yish",
+            "email": "mombuartworks@gmail.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^7.1",
+        "guzzlehttp/guzzle": "^6.3",
+        "illuminate/notifications": "^5.8|^6.0",
+        "illuminate/support": "5.8.*"
+    },
+    "require-dev": {
+        "orchestra/testbench": "3.8.*",
+        "phpunit/phpunit": "^7.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Yish\\Notifications\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Yish\\Notifications\\Tests\\": "tests"
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit",
+        "test-coverage": "vendor/bin/phpunit --coverage-html coverage"
+
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Yish\\Notifications\\SybaseNotificationChannelServiceProvider"
+            ]
+        }
+    }
+}
