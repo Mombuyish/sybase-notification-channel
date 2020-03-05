@@ -46,7 +46,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Yish\\Notifications\\SybaseNotificationChannelServiceProvider"
+                "Yish\\Notifications\\SybaseChannelServiceProvider"
             ]
         }
     }
